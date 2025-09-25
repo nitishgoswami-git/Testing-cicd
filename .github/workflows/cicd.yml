@@ -1,0 +1,42 @@
+name: Flask CI/CD to Render
+
+on:
+  push:
+    branches:
+      - main   # Deploy on push to main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      # Step 3: Create virtual environment
+      - name: Create venv
+        run: python -m venv venv
+
+      # Step 4: Activate venv and install dependencies
+      - name: Install dependencies
+        run: |
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 5: Run tests (optional)
+      #- name: Run tests
+      #  run: |
+      #    source venv/bin/activate
+      #    pytest
+
+      # Step 6: Deploy is automatic via Render GitHub integration
+      - name: Deployment
+        run: echo "Render automatically deploys from GitHub on push"
